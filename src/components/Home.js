@@ -32,9 +32,6 @@ const Home = () => {
       <Link
         to={{
           pathname: "/map",
-          // state: {
-          //   hello: 'world'
-          // }
           state,
         }}
       >
