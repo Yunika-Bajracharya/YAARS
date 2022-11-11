@@ -6,6 +6,7 @@ import "./mapView.css";
 import { getBusses, doAll } from "../firebase";
 import { Navbar } from "./Navbar/Navbar";
 import { Carts } from "./Carts/Carts";
+import { Sidebar } from "./Sidebar/Sidebar";
 
 import { useLocation, useHistory } from "react-router-dom";
 
@@ -25,14 +26,15 @@ const MapView = (props) => {
       async function (position) {
         const busses = await doAll();
         setState({
-        ...state,
-        currentLocation: {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        }, data: {
-          venues: busses,
-        },
-      });
+          ...state,
+          currentLocation: {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          },
+          data: {
+            venues: busses,
+          },
+        });
       },
       function (error) {
         console.error("Error Code = " + error.code + " - " + error.message);
@@ -43,12 +45,9 @@ const MapView = (props) => {
     );
   }, []);
 
-
-
   useEffect(() => {
     // Some hard coded magic
-    console.log(props)
-    
+    console.log(props);
 
     if (location.state.latitude && location.state.longitude) {
       const currentLocation = {
@@ -75,23 +74,24 @@ const MapView = (props) => {
 
   return (
     <>
-    <Navbar />
-    <Carts/>
+      <Navbar />
+      <Carts />
 
-    
-    <div className="map__home">
-      <div className="sidebar">history</div>
-      <div className="map">
-        <Map center={state.currentLocation} zoom={state.zoom}>
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          />
-          <Markers venues={state.data.venues} />
-        </Map>
+      <div className="map__home">
+        <div className="sidebar">
+          <Sidebar />
+        </div>
+        <div className="map">
+          <Map center={state.currentLocation} zoom={state.zoom}>
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <Markers venues={state.data.venues} />
+          </Map>
+        </div>
       </div>
-    </div>
-</>
+    </>
   );
 };
 
