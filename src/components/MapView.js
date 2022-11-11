@@ -4,6 +4,8 @@ import data from "../assets/data.json";
 import Markers from "./VenueMarkers";
 import "./mapView.css";
 import { getBusses, doAll } from "../firebase";
+import { Navbar } from "./Navbar/Navbar";
+import { Carts } from "./Carts/Carts";
 
 import { useLocation, useHistory } from "react-router-dom";
 
@@ -19,19 +21,35 @@ const MapView = (props) => {
   const location = useLocation();
   const history = useHistory();
   useEffect(() => {
-    const updateData = async () => {
-      const busses = await doAll();
-      setState({
+    navigator.geolocation.getCurrentPosition(
+      async function (position) {
+        const busses = await doAll();
+        setState({
         ...state,
-        data: {
+        currentLocation: {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        }, data: {
           venues: busses,
         },
       });
-    };
-    updateData();
+      },
+      function (error) {
+        console.error("Error Code = " + error.code + " - " + error.message);
+      },
+      {
+        enableHighAccuracy: true,
+      }
+    );
   }, []);
 
+
+
   useEffect(() => {
+    // Some hard coded magic
+    console.log(props)
+    
+
     if (location.state.latitude && location.state.longitude) {
       const currentLocation = {
         lat: location.state.latitude,
@@ -56,6 +74,11 @@ const MapView = (props) => {
   }, [location]);
 
   return (
+    <>
+    <Navbar />
+    <Carts/>
+
+    
     <div className="map__home">
       <div className="sidebar">history</div>
       <div className="map">
@@ -68,6 +91,7 @@ const MapView = (props) => {
         </Map>
       </div>
     </div>
+</>
   );
 };
 
