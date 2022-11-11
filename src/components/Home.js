@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import "./home.css";
 
 const Home = () => {
   const [state, setState] = useState({
@@ -26,11 +27,8 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Geolocation</h1>
-      <p>Latitude: {state.latitude}</p>
-      <p>longitude: {state.longitude}</p>
-
+    <div className="container">
+      <h1 className="home__welcome">Welcome!</h1>
       <Link
         to={{
           pathname: "/map",
@@ -40,7 +38,7 @@ const Home = () => {
           state,
         }}
       >
-        See marker
+        <button className="home__button">Log In</button>
       </Link>
     </div>
   );

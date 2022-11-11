@@ -1,0 +1,25 @@
+.home__welcome {
+    text-align: center;
+    margin-bottom: 50px;
+    color: white;
+}
+
+.home__button {
+    margin-left: auto;
+    display: block;
+    margin-right: auto;
+    font-size: 20px;
+    padding: 10px;
+    text-decoration: none;
+    width: 100px;
+    border-radius: 5px;
+}
+
+.container {
+    background-color: #003488;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
