@@ -1,0 +1,23 @@
+.sidenav {
+    height: 60px;
+    background-color: #003488;
+    padding: 10px;
+}
+
+.title {
+    color: white;
+}
+
+.icon__profile {
+    color: white;
+    right: 30px;
+    position: absolute;
+    top: 15px;
+}
+
+.icon__notification {
+    color: white;
+    right: 80px;
+    position: absolute;
+    top: 15px;
+}
