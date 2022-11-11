@@ -3,6 +3,7 @@ import { Map, TileLayer } from "react-leaflet";
 import data from "../assets/data.json";
 import Markers from "./VenueMarkers";
 import "./mapView.css";
+import { getBusses, doAll } from "../firebase";
 
 import { useLocation, useHistory } from "react-router-dom";
 
@@ -17,6 +18,18 @@ const MapView = (props) => {
 
   const location = useLocation();
   const history = useHistory();
+  useEffect(() => {
+    const updateData = async () => {
+      const busses = await doAll();
+      setState({
+        ...state,
+        data: {
+          venues: busses,
+        },
+      });
+    };
+    updateData();
+  }, []);
 
   useEffect(() => {
     if (location.state.latitude && location.state.longitude) {
