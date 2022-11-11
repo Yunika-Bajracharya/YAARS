@@ -1,0 +1,16 @@
+.map__home {
+    background-color: rgb(205, 230, 241);
+    display: flex;
+}
+
+.sidebar {
+    border: 2px solid grey;
+    width: 350px;
+    background-color: white;
+    height: 76vh;
+}
+
+.map {
+    flex: 1;
+    margin-right: 20px;
+}

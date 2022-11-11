@@ -1,5 +1,4 @@
 .leaflet-container {
-  width: 50vw;
-  height: 50vh;
-  margin: auto;
+  height: 75vh;
+  box-shadow: 2px 2px 2px 2px #888888;
 }

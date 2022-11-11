@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Map, TileLayer } from "react-leaflet";
 import data from "../assets/data.json";
 import Markers from "./VenueMarkers";
+import "./mapView.css";
 
 import { useLocation, useHistory } from "react-router-dom";
 
@@ -42,19 +43,18 @@ const MapView = (props) => {
   }, [location]);
 
   return (
-    <>
-      <h1>Geolocation</h1>
-      <p>Latitude: {state.latitude}</p>
-      <p>longitude: {state.longitude}</p>
-
-      <Map center={state.currentLocation} zoom={state.zoom}>
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        />
-        <Markers venues={state.data.venues} />
-      </Map>
-    </>
+    <div className="map__home">
+      <div className="sidebar">history</div>
+      <div className="map">
+        <Map center={state.currentLocation} zoom={state.zoom}>
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <Markers venues={state.data.venues} />
+        </Map>
+      </div>
+    </div>
   );
 };
 
