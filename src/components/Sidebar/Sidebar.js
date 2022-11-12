@@ -1,46 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./sidebar.css";
+import { busA, childernData } from "./Data";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
-export const Sidebar = () => {
-  const bus = 1;
+export const Sidebar = (props) => {
+  const [children, setChildren] = useState([]);
+  const [buttonTitle, setButtonTitle] = useState("Choose");
   return (
     <>
       <div className="sidebar__nav">
         Buses:
         <button className="dropdown">
           <span>
-            Choose &nbsp; <MdKeyboardArrowDown />
+            {buttonTitle} &nbsp; <MdKeyboardArrowDown />
           </span>
           <ul className="dropdown-content">
-            <button className="dropdown-item" onClick={() => 1}>
-              Bus A
-            </button>
-            <button className="dropdown-item" onClick={() => 1}>
-              Bus B
-            </button>{" "}
-            <button className="dropdown-item" onClick={() => 1}>
-              Bus C
-            </button>
+            {props.data.map((item) => {
+              return (
+                <button
+                  className="dropdown-item"
+                  onClick={() => {
+                    setButtonTitle(item.name);
+                    setChildren(item.children);
+                  }}
+                >
+                  {item.name}
+                </button>
+              );
+            })}
           </ul>
         </button>
       </div>
 
       <h2>Children</h2>
       <hr />
-      <ul>
-        <li>Ramesh Shiwakoti</li>
-        <li>Gyanu Dhahal</li>
-        <li>Bishal Karki</li>
-        <li>Manita Shakya</li>
-        <li>Kusum Pant</li>
-        <li>Dilasha Rai</li>
-        <li>Krish Bajracharya</li>
-        <li>Anuj Awasthi</li>
-        <li>Ruja Silwal</li>
-        <li>Nisha Shrestha</li>
-        <li>Ganesh Chhetri</li>
-      </ul>
+
+      {children.map((item) => {
+        return (
+          <div className="children__card">
+            <div className="childName">{item.name}</div>
+            <div className="childLocation">{item.location}</div>
+          </div>
+        );
+      })}
     </>
   );
 };

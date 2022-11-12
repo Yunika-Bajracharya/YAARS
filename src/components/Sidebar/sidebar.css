@@ -42,3 +42,17 @@
   font-weight: bold;
   border-radius: 5px;
 }
+
+.children__card {
+ background-color: rgb(236, 232, 232); 
+ border-bottom: 1px solid gray;
+ padding: 10px;
+ padding-bottom: 20px;
+ height: 60px;
+ text-align: center;
+}
+
+.childName {
+  font-size: 20px;
+  margin-bottom: 2px;
+}
