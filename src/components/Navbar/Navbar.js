@@ -6,7 +6,8 @@ export const Navbar = () => {
   return (
     <>
       <div className="sidenav">
-        <h1 className="title">Yaatri</h1>
+        {/* <img src={logo} alt="Logo" className="logo"/> */}
+        <h1 className="title">Sahayatri</h1>
         <MdOutlineNotificationsActive
           className="icon__notification"
           size={30}

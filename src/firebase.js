@@ -1,22 +1,12 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps,  } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+import apiKey from "./config";
 
 // TODO: Add SDKs for Firebase products that you want to use
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCDvYc0-DzxqQxpjnI56MsNg159VoV_Tww",
-  authDomain: "years-1264e.firebaseapp.com",
-  projectId: "years-1264e",
-  storageBucket: "years-1264e.appspot.com",
-  messagingSenderId: "578209780241",
-  appId: "1:578209780241:web:976e3c2e1c4c1706b957b0",
-  measurementId: "G-93M3FE5CGR",
-};
-
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+
 async function getBusses(db) {
   const busCol = collection(db, "Buses");
   const busSnapshot = await getDocs(busCol);
@@ -27,7 +17,8 @@ async function getBusses(db) {
       description: "some desc",
       geometry: [c.geometry._lat, c.geometry._long],
       number: c.number,
-      id: c.id
+      id: c.id,
+      route: c.route
     };
     return object;
   });
@@ -43,7 +34,7 @@ async function getHistory(db) {
 
 function getDB() {
   const firebaseConfig = {
-    apiKey: "AIzaSyCDvYc0-DzxqQxpjnI56MsNg159VoV_Tww",
+    apiKey: apiKey,
     authDomain: "years-1264e.firebaseapp.com",
     projectId: "years-1264e",
     storageBucket: "years-1264e.appspot.com",

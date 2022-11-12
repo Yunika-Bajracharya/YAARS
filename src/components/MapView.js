@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Map, TileLayer } from "react-leaflet";
+import { Map, TileLayer, Polyline } from "react-leaflet";
 import data from "../assets/data.json";
 import Markers from "./VenueMarkers";
 import "./mapView.css";
-import {getHistoryData, getBussesData } from "../firebase";
+import { getHistoryData, getBussesData } from "../firebase";
 import { Navbar } from "./Navbar/Navbar";
 import { Carts } from "./Carts/Carts";
 import { Sidebar } from "./Sidebar/Sidebar";
@@ -20,24 +20,36 @@ const MapView = (props) => {
     data,
   });
   const [locationHistory, setLocationHistory] = useState([])
+  const [highlightedRoute, sethighlighedRoute] = useState([])
+  const limeOptions = { color: 'green' }
 
   const location = useLocation();
   const history = useHistory();
-  useEffect(() => {
-    async function updateMap() {
-      console.log("called")
-      console.log(state);
+
+  function showRoute(data){
+    const parsedData = data.map(m => [m._lat, m._long])
+    sethighlighedRoute(parsedData
+    )
+  }
+
+  async function updateMap() {
       const busses = await getBussesData();
+      const templocationData = await busses[0].geometry
+      console.log(templocationData)
+      console.log(locationHistory)
+      setLocationHistory([...locationHistory, templocationData])
       setState({
         ...state,
         data: {
           venues: busses
         }
-      })
-    }
+    })
+  }
+  useEffect(() => {
     async function updateLocations(position){
         const busses = await getBussesData();
-        const historyData = await getHistoryData()
+        // const historyData = await getHistoryData()
+        const templocationData = busses[0].geometry
         setState({
           ...state,
           currentLocation: {
@@ -48,8 +60,7 @@ const MapView = (props) => {
             venues: busses,
           },
         });
-        setLocationHistory(historyData);
-        console.log(historyData);
+        setLocationHistory([...locationHistory, templocationData])
     }
     navigator.geolocation.getCurrentPosition(
       async function (position) {
@@ -62,19 +73,16 @@ const MapView = (props) => {
         enableHighAccuracy: true,
       }
     );
-    const interval = setInterval(() => updateMap(), 20000)
+    const interval = setInterval(() => updateMap(), 1000)
   }, []);
 
   useEffect(() => {
     // Some hard coded magic
-    console.log(props);
-
     if (location.state.latitude && location.state.longitude) {
       const currentLocation = {
         lat: location.state.latitude,
         lng: location.state.longitude,
       };
-      console.log(state);
       setState({
         ...state,
         data: {
@@ -107,7 +115,8 @@ const MapView = (props) => {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
-            <Markers venues={state.data.venues} />
+            <Polyline pathOptions={limeOptions} positions={highlightedRoute} />
+            <Markers venues={state.data.venues} showRoute={showRoute}/>
           </Map>
         </div>
       </div>
