@@ -3,7 +3,7 @@ import { Map, TileLayer } from "react-leaflet";
 import data from "../assets/data.json";
 import Markers from "./VenueMarkers";
 import "./mapView.css";
-import { getBusses, doAll } from "../firebase";
+import {getHistoryData, getBussesData } from "../firebase";
 import { Navbar } from "./Navbar/Navbar";
 import { Carts } from "./Carts/Carts";
 import { Sidebar } from "./Sidebar/Sidebar";
@@ -14,17 +14,29 @@ import "leaflet/dist/leaflet.css";
 
 const MapView = (props) => {
   const [state, setState] = useState({
-    currentLocation: { lat: 52.52437, lng: 13.41053 },
+    currentLocation: { lat: 27.691025218551726 , lng: 85.33932172849848 },
     zoom: 13,
     data,
   });
+  const [locationHistory, setLocationHistory] = useState([])
 
   const location = useLocation();
   const history = useHistory();
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      async function (position) {
-        const busses = await doAll();
+    async function updateMap() {
+      console.log("called")
+      console.log(state);
+      const busses = await getBussesData();
+      setState({
+        ...state,
+        data: {
+          venues: busses
+        }
+      })
+    }
+    async function updateLocations(position){
+        const busses = await getBussesData();
+        const historyData = await getHistoryData()
         setState({
           ...state,
           currentLocation: {
@@ -35,6 +47,12 @@ const MapView = (props) => {
             venues: busses,
           },
         });
+        setLocationHistory(historyData);
+        console.log(historyData);
+    }
+    navigator.geolocation.getCurrentPosition(
+      async function (position) {
+        updateLocations(position)
       },
       function (error) {
         console.error("Error Code = " + error.code + " - " + error.message);
@@ -43,6 +61,7 @@ const MapView = (props) => {
         enableHighAccuracy: true,
       }
     );
+    const interval = setInterval(() => updateMap(), 20000)
   }, []);
 
   useEffect(() => {
