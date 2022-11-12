@@ -7,6 +7,7 @@ import { getBusses, doAll } from "../firebase";
 import { Navbar } from "./Navbar/Navbar";
 import { Carts } from "./Carts/Carts";
 import { Sidebar } from "./Sidebar/Sidebar";
+import { childernData } from "./Sidebar/Data";
 
 import { useLocation, useHistory } from "react-router-dom";
 
@@ -79,7 +80,7 @@ const MapView = (props) => {
 
       <div className="map__home">
         <div className="sidebar">
-          <Sidebar />
+          <Sidebar data={childernData} />
         </div>
         <div className="map">
           <Map center={state.currentLocation} zoom={state.zoom}>
