@@ -11,7 +11,6 @@ const Home = () => {
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       function (position) {
-        // console.log(position);
         setState({
           longitude: position.coords.longitude,
           latitude: position.coords.latitude,
@@ -32,7 +31,7 @@ const Home = () => {
       <Link
         to={{
           pathname: "/map",
-          state,
+          state: state,
         }}
       >
         <button className="home__button">Log In</button>

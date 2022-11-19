@@ -15,9 +15,10 @@ export const Sidebar = (props) => {
             {buttonTitle} &nbsp; <MdKeyboardArrowDown />
           </span>
           <ul className="dropdown-content">
-            {props.data.map((item) => {
+            {props.data.map((item, index) => {
               return (
-                <button
+                <li
+                  key={index}
                   className="dropdown-item"
                   onClick={() => {
                     setButtonTitle(item.name);
@@ -25,7 +26,7 @@ export const Sidebar = (props) => {
                   }}
                 >
                   {item.name}
-                </button>
+                </li>
               );
             })}
           </ul>
@@ -35,14 +36,16 @@ export const Sidebar = (props) => {
       <h2>Children</h2>
       <hr />
 
-      {children.map((item) => {
-        return (
-          <div className="children__card">
-            <div className="childName">{item.name}</div>
-            <div className="childLocation">{item.location}</div>
-          </div>
-        );
-      })}
+      <ul>
+        {children.map((item, index) => {
+          return (
+            <li className="children__card" key={index}>
+                <div className="childName">{item.name}</div>
+                <div className="childLocation">{item.location}</div>
+            </li>
+          );
+        })}
+      </ul>
     </>
   );
 };
