@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Map, TileLayer, Polyline } from "react-leaflet";
+import { MapContainer as Map, TileLayer, Polyline } from "react-leaflet";
 import data from "../assets/data.json";
 import Markers from "./VenueMarkers";
 import "./mapView.css";
@@ -9,7 +9,7 @@ import { Carts } from "./Carts/Carts";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { childernData } from "./Sidebar/Data";
 
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import "leaflet/dist/leaflet.css";
 
@@ -24,7 +24,7 @@ const MapView = (props) => {
   const limeOptions = { color: 'green' }
 
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   function showRoute(data){
     const parsedData = data.map(m => [m._lat, m._long])
@@ -76,29 +76,27 @@ const MapView = (props) => {
     const interval = setInterval(() => updateMap(), 1000)
   }, []);
 
-  useEffect(() => {
-    // Some hard coded magic
-    if (location.state.latitude && location.state.longitude) {
-      const currentLocation = {
-        lat: location.state.latitude,
-        lng: location.state.longitude,
-      };
-      setState({
-        ...state,
-        data: {
-          venues: state.data.venues.concat({
-            name: "new",
-            geometry: [currentLocation.lat, currentLocation.lng],
-          }),
-        },
-        currentLocation,
-      });
-      history.replace({
-        pathname: "/map",
-        state: {},
-      });
-    }
-  }, [location]);
+
+  // useEffect(() => {
+  //   // Some hard coded magic
+  //   if (location.state.latitude && location.state.longitude) {
+  //     const currentLocation = {
+  //       lat: location.state.latitude,
+  //       lng: location.state.longitude,
+  //     };
+  //     setState({
+  //       ...state,
+  //       data: {
+  //         venues: state.data.venues.concat({
+  //           name: "new",
+  //           geometry: [currentLocation.lat, currentLocation.lng],
+  //         }),
+  //       },
+  //       currentLocation,
+  //     });
+  //     navigate("/map");
+  //   }
+  // }, [location]);
 
   return (
     <>
